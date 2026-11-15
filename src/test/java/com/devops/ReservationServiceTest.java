@@ -50,8 +50,7 @@ class ReservationServiceTest {
     //    RG01: Invalid inputs
     @Test
     void shouldRejectInvalidStudentId() {
-        assertThrows(Exception.class, () -> reservationService.makeReservation((0, 1, today, today.plusDays(1))));
-
+        assertThrows(Exception.class, () -> reservationService.makeReservation(0, 1, today, today.plusDays(1)));
         assertEquals(0, reservationService.getOrders().size());
     }
 
@@ -99,7 +98,8 @@ class ReservationServiceTest {
     }
 
     @Test
-    void shouldAcceptReservationOfExactlySevenDays() throws Exception {Order order = reservationService.makeReservation(1, 1, today, today.plusDays(6));
+    void shouldAcceptReservationOfExactlySevenDays() throws Exception {
+        Order order = reservationService.makeReservation(1, 1, today, today.plusDays(6));
         assertEquals(7, order.getDuration());
     }
 
