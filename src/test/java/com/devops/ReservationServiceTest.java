@@ -67,4 +67,18 @@ class ReservationServiceTest {
         assertThrows(Exception.class, () -> reservationService.makeReservation(1, 1, today.minusDays(1), today));
         assertEquals(0, reservationService.getOrders().size());
     }
+
+    // RG03: End date cannot be before start date
+    @Test
+    void shouldRejectEndDateBeforeStartDate() {
+        assertThrows(Exception.class, () -> reservationService.makeReservation(1, 1, today.plusDays(3), today.plusDays(1)));
+        assertEquals(0, reservationService.getOrders().size());
+    }
+
+    // RG05: Student must exist
+    @Test
+    void shouldRejectUnknownStudent() {studentMock.when(() -> Student.checkStudentExistsById(99)).thenReturn(false);
+        assertThrows(Exception.class, () -> reservationService.makeReservation(99, 1, today, today.plusDays(1)));
+        assertEquals(0, reservationService.getOrders().size());
+    }
 }
